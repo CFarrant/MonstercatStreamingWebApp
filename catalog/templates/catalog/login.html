@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Monstercat Catalog</title>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .songbox{
+      width: 100%; 
+      margin-top: 10%;
+      margin-bottom: 10%;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .song{
+      display: inline-block; 
+      margin: 0 auto;
+      padding: 3px;
+    }
+  </style>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand">Monstercat Catalog Project</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/random/">Random</a>
+        <a class="nav-link" href="/register/">Register</a>
+        <a class="nav-link active" href="/login/">Login</a>
+      </div>
+    </div>
+  </nav>
+  <div class=songbox>
+    <div class="song">
+      <span>
+        <div style="margin-top: 10%">
+          {% load crispy_forms_tags %}
+          {% block content %}
+          <form action="/login/" class='form' method="POST">
+            {% csrf_token %}
+            {{form|crispy}}
+            <br/>
+            <button type="submit" class="btn btn-primary">Login</button>
+          </form>
+          {% endblock %}
+        </div>
+      </span>
+    </div>
+  </div>
+</body>
+
+</html>
