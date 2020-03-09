@@ -138,7 +138,6 @@ def song(request):
       return redirect("/")
   else:
     return redirect("/login/")
-  return None
 
 def logout(request):
   request.session['is_logged_in'] = False
