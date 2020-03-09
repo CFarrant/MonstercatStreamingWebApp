@@ -7,6 +7,7 @@ from django.template import loader
 from catalog.models import Album, Song
 from random import randint
 from .forms import Registration, Login
+import datetime
 
 # General views:
 def index(request):
@@ -53,6 +54,7 @@ def login(request):
       print("Empty User:",user is None)
       if user is not None:
         request.session['is_logged_in'] = True
+        user.last_login = datetime.datetime.now()
         return redirect("/")
       else:
         return redirect("/login/")
@@ -87,7 +89,8 @@ def catalog(request):
   if request.session["is_logged_in"] is True:
     albums = Album.objects.all()
     context = {
-      'albums': albums
+      'albums': albums,
+      'logged_in': request.session['is_logged_in'],
     }
     return render(request, 'catalog\catalog.html', context)
   else:
@@ -104,7 +107,8 @@ def album(request):
         songs = Song.objects.filter(album_id=id)
         context = {
           "album": album,
-          "songs": songs
+          "songs": songs,
+          "logged_in": request.session['is_logged_in'],
         }
         return render(request, 'catalog\\album.html', context)
     else:
@@ -112,13 +116,28 @@ def album(request):
   else:
     return redirect("/login/")
 
-def artist_albums(request):
-  return None
-
-def artist(request):
-  return None
-
 def song(request):
+  if request.session["is_logged_in"] is True:
+    if request.method == "GET":
+      id = request.GET.get('id')
+      if not id:
+        return redirect("/catalog/")
+      else:
+        song = Song.objects.get(track_id=id)
+        context = {
+          'album_cover_url': song.album.cover_url,
+          'artist_name': song.artist.artist_name,
+          'song_title': song.title,
+          'genre_primary': song.genre_primary,
+          'genre_secondary': song.genre_secondary,
+          'song_url': song.url,
+          'logged_in': request.session['is_logged_in'],
+        }
+        return render(request, 'catalog\\song.html', context)
+    else:
+      return redirect("/")
+  else:
+    return redirect("/login/")
   return None
 
 def logout(request):

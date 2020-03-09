@@ -12,25 +12,64 @@
 
 <body>
   <style>
+    .sticky {
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
     body {
       background-color: black;
       color: white;
       font-family: 'Montserrat', sans-serif;
     }
-    .songbox{
-      margin-bottom: 4.1%;
-      margin-top: 4.1%;
-      width: 100%;
+    .wrapper {
+      display: grid;
+      grid-gap: 30px;
+      grid-auto-flow: row;
+      grid-template-columns: auto;
+    }
+    body .wrapper {
+      margin-top: 5%;
+      margin-left: 5%;
+      margin-right: 5%;
+      margin-bottom: 2.5%
+    }
+    .songbox {
+      margin-top: 5%;
+      margin-left: 35%;
+      margin-right: 35%;
       text-align: center;
       vertical-align: middle;
     }
     .song{
       display: inline-block; 
       margin: 0 auto;
-      padding: 3px;
+    }
+    .box {
+      height: auto;
+      border-radius: 5px;
+      padding: 10px;
+      margin-left: 10%;
+      margin-right: 10%;
+      font-size: 100%;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+    }
+    .box a{
+      text-decoration: none;
+    }
+    .box:hover {
+      background-color: grey;
+      text-decoration: none;
+      color: white;
+    }
+    .box a:hover {
+      text-decoration: none;
+      color: white;
     }
   </style>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky">
     <a class="navbar-brand">Monstercat Catalog Project</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -51,32 +90,25 @@
       </div>
     </div>
   </nav>
-  <div class=songbox>
+  <div class="songbox">
     <div class="song">
-      <span>
-        <div style="margin-bottom: 5px;">
-          <img style="width: 550px; height: 550px;" src="{{album.cover_url}}">
-        </div>
-        <br/>
-        <div>
-          <h1>{{album.album_id}}</h1>
-          <h1>{{album.name}}</h1>
-          <h1>{{album.genre_primary}}</h1>
-          <h1>{{album.genre_secondary}}</h1>
-        </div>
-      </span>
+      <div>
+        <img style="width: 400px; height: 400px;" src="{{album.cover_url}}">
+      </div>
+      <br/>
+      <div>
+        <h1>{{album.name}}</h1>
+        <H3>{{album.artist.artist_name}}</H3>
+        <h5>{{album.genre_primary}}, {{album.genre_secondary}}</h5>
+      </div>
     </div>    
+  </div>
+  <div style="margin-top: 20px; margin-bottom: 20px;">
     {% for song in songs %}
     <a href="/song/?id={{song.track_id}}" style=>
       <div class="box">
         <div>
-          <img style="width: 180px; height: 180px;" src="{{album.cover_url}}">
-        </div>
-        <br/>
-        <div>
-          <h9>{{song.title}}</h9>
-          <br />
-          <h9>{{song.artist.artist_name}}</h9>
+          <h3>{{song.track_number}}) {{song.title}} ~ {{song.artist.artist_name}}</h3>
         </div>
       </div>
     </a>

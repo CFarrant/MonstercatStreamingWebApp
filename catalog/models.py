@@ -29,7 +29,6 @@ class Song(models.Model):
   track_number = models.IntegerField(null=False)
   album = models.ForeignKey(Album, db_column="album_id", on_delete=models.CASCADE, default="EMPTY")
   artist = models.ForeignKey(Artist, db_column="artist_name", on_delete=models.CASCADE, default="EMPTY")
-  album_name = models.CharField(db_column="album", max_length=255, null=True)
   
   def __str__(self):
     return self.title
