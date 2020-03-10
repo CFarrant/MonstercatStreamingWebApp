@@ -54,6 +54,9 @@
         <a class="nav-link" href="/catalog/">Catalog</a>
         <a class="nav-link disabled">Album</a>
         <a class="nav-link active">Song</a>
+        {% if admin == True %}
+        <a class="nav-link" href="/admin/">Admin</a>
+        {% endif %}
         <a class="nav-link" href="/logout/">Logout</a>
         {% endif %}
       </div>

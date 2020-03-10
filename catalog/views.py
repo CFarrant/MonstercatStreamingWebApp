@@ -15,9 +15,13 @@ def index(request):
     temp = request.session['is_logged_in']
   except KeyError:
     request.session['is_logged_in'] = False
-
+  try:
+    temp = request.session['is_admin']
+  except KeyError:
+    request.session['is_admin'] = False
   context = {
     'logged_in': request.session['is_logged_in'],
+    'admin': request.session['is_admin'],
   }
   return render(request, 'catalog\index.html', context)
 
@@ -36,6 +40,7 @@ def random(request):
     'genre_secondary': song.genre_secondary,
     'song_url': song.url,
     'logged_in': request.session['is_logged_in'],
+    'admin': request.session['is_admin'],
   }
   return render(request, 'catalog\\random.html', context)
 
@@ -49,12 +54,11 @@ def login(request):
     if form.is_valid():
       email = form.cleaned_data['email']
       password = form.cleaned_data['password']
-      print(email,password)
       user = authenticate(username=email, password=password)
-      print("Empty User:",user is None)
       if user is not None:
         request.session['is_logged_in'] = True
-        user.last_login = datetime.datetime.now()
+        if user in User.objects.filter(is_superuser=True):
+          request.session['is_admin'] = True
         return redirect("/")
       else:
         return redirect("/login/")
@@ -91,6 +95,7 @@ def catalog(request):
     context = {
       'albums': albums,
       'logged_in': request.session['is_logged_in'],
+      'admin': request.session['is_admin'],
     }
     return render(request, 'catalog\catalog.html', context)
   else:
@@ -109,6 +114,7 @@ def album(request):
           "album": album,
           "songs": songs,
           "logged_in": request.session['is_logged_in'],
+          'admin': request.session['is_admin'],
         }
         return render(request, 'catalog\\album.html', context)
     else:
@@ -132,6 +138,7 @@ def song(request):
           'genre_secondary': song.genre_secondary,
           'song_url': song.url,
           'logged_in': request.session['is_logged_in'],
+          'admin': request.session['is_admin'],
         }
         return render(request, 'catalog\\song.html', context)
     else:
@@ -141,4 +148,5 @@ def song(request):
 
 def logout(request):
   request.session['is_logged_in'] = False
+  request.session['is_admin'] = False
   return redirect("/")

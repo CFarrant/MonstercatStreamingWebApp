@@ -25,7 +25,7 @@
     }
     .songbox{
       width: 100%; 
-      margin-top: 10%;
+      margin-top: 12.5%;
       margin-bottom: 10%;
       text-align: center;
       vertical-align: middle;
@@ -52,6 +52,9 @@
         <a class="nav-link" href="/catalog/">Catalog</a>
         <a class="nav-link disabled">Album</a>
         <a class="nav-link disabled">Song</a>
+        {% if admin == True %}
+        <a class="nav-link" href="/admin/">Admin</a>
+        {% endif %}
         <a class="nav-link" href="/logout/">Logout</a>
         {% endif %}
       </div>
@@ -66,7 +69,6 @@
         </div>
         <div>
           <h1>Welcome to the Monstercat Catalog Project!</h1>
-          <h3>By: Christopher Farrant</h3>
         </div>
       </span>
     </div>
